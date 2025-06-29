@@ -1,21 +1,24 @@
+// App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LeftSidebar from '/components/LeftSidebar';
-
-const FirstPage = () => <h1>First Page</h1>;
-const SecondPage = () => <h1>Second Page</h1>;
-const ThirdPage = () => <h1>Third Page</h1>;
+import './App.css';
+import leftSidebar from './components/LeftSidebar';
+import AIDropdown from './components/AIDropdown';
 
 function App() {
     return (
-        <Router>
+        <div className="dashboard-container">
+            {/* Left Sidebar */}
             <LeftSidebar />
-            <Routes>
-                <Route path="/first" element={<FirstPage />} />
-                <Route path="/second" element={<SecondPage />} />
-                <Route path="/third" element={<ThirdPage />} />
-            </Routes>
-        </Router>
+
+            {/* Main Content */}
+            <main className="main-content">
+                <h1>Welcome to the Emotion Detection Dashboard</h1>
+                <p>This is the main content area.</p>
+            </main>
+
+            {/* AI Dropdown */}
+            <AIDropdown />
+        </div>
     );
 }
 
