@@ -35,7 +35,7 @@ const LeftSidebar = () => {
             )}
             <div className="emotion-box">
                 <video id="webcamVideo" autoPlay playsInline style={{ width: '100%', height: '100%' }}></video>
-                <div className="emotion-output">Emotion: Neutral</div>
+                <div className="emotion-output"> Emotion: Neutral</div>
             </div>
         </div>
     );

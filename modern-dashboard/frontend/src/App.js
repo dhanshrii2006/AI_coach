@@ -1,8 +1,10 @@
+
 // App.js
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import leftSidebar from './components/LeftSidebar';
-import AIDropdown from './components/AIDropdown';
+import LeftSidebar from '/components/LeftSidebar';
+import AIDropdown from '/components/AIDropdown';
 
 function App() {
     return (
@@ -12,8 +14,13 @@ function App() {
 
             {/* Main Content */}
             <main className="main-content">
-                <h1>Welcome to the Emotion Detection Dashboard</h1>
-                <p>This is the main content area.</p>
+                <Routes>
+                    <Route path="/profile" element={<h1>User Profile</h1>} />
+                    <Route path="/analysis" element={<h1>Analysis</h1>} />
+                    <Route path="/history" element={<h1>History</h1>} />
+                    <Route path="/emotion-detection" element={<h1>Emotion Detection</h1>} />
+                    <Route path="/" element={<h1>Welcome to the Dashboard</h1>} />
+                </Routes>
             </main>
 
             {/* AI Dropdown */}
