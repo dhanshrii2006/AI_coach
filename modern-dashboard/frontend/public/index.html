@@ -43,6 +43,9 @@
             overflow-y: auto;
             z-index: 100;
             padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .sidebar-header {
@@ -51,11 +54,13 @@
             justify-content: space-between;
             border-bottom: 1px solid #e5e7eb;
             margin-bottom: 1rem;
+            width: 100%;
         }
 
         .sidebar-menu {
             list-style: none;
             padding: 0;
+            width: 100%;
         }
 
         .sidebar-menu li {
@@ -82,6 +87,23 @@
             font-size: 1.25rem;
             min-width: 24px;
             text-align: center;
+        }
+
+        /* Webcam Styles */
+        .webcam-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9/16;
+            background-color: #000;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .webcam {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* Main Content Styles */
@@ -112,6 +134,8 @@
             box-shadow: var(--box-shadow);
             padding: 1.5rem;
             margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
         }
 
         .video-player {
@@ -123,20 +147,15 @@
             position: relative;
         }
 
-        .video-controls {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
         .emotion-detection {
             background-color: white;
+            border: 2px solid var(--primary-color);
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             padding: 1rem;
             margin-bottom: 2rem;
             text-align: center;
-            aspect-ratio: 9/16;
+            aspect-ratio: 16/9;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -153,19 +172,30 @@
         /* Chatbox Styles */
         .chatbox {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 350px;
-            background-color: white;
-            border-radius: var(--border-radius);
+            top: 1rem;
+            right: 1rem;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
             box-shadow: var(--box-shadow);
-            overflow: hidden;
-            transition: all var(--transition-speed);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
             z-index: 90;
         }
 
-        .chatbox.closed {
-            transform: translateY(calc(100% - 40px));
+        .chatbox-content {
+            display: none;
+            position: fixed;
+            top: 60px;
+            right: 1rem;
+            width: 300px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            z-index: 100;
         }
 
         .chatbox-header {
@@ -175,18 +205,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-        }
-
-        .chatbox-title {
-            font-weight: 600;
-        }
-
-        .chatbox-toggle {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.25rem;
             cursor: pointer;
         }
 
@@ -217,6 +235,18 @@
             padding: 0.5rem 1rem;
             border-radius: var(--border-radius);
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatbox-input {
+            display: flex;
+            padding: 0.5rem;
+        }
+
+        .chatbox-input input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius);
         }
 
         .chatbox-input button {
@@ -257,7 +287,7 @@
             <li>
                 <a href="user_profile.html">
                     <span class="icon">👤</span>
-                    <span class="text">User  Profile</span>
+                    <span class="text">User Profile</span>
                 </a>
             </li>
             <li>
@@ -273,6 +303,9 @@
                 </a>
             </li>
         </ul>
+        <div class="webcam-container">
+            <video id="webcam" class="webcam" autoplay></video>
+        </div>
         <div class="emotion-detection">
             <h3>Emotion Detection</h3>
             <div class="emotion-display" id="emotionDisplay">Emotion: Neutral</div>
@@ -291,7 +324,7 @@
                 <!-- YouTube iframe will be inserted here -->
             </div>
             <div class="video-controls">
-                <input type="text" class="video-input" id="videoUrl" placeholder="Paste YouTube URL here...">
+                <input type="text" class="video-input" id="videoUrl" placeholder="Paste YouTube URL here..." style="width: calc(100% - 120px);">
                 <button class="btn btn-primary" id="playVideo">Play Video</button>
             </div>
         </div>
@@ -303,19 +336,20 @@
     </main>
 
     <!-- Chatbox -->
-    <div class="chatbox closed" id="chatbox">
+    <div class="chatbox" id="chatbox">
         <div class="chatbox-header" id="chatboxToggle">
-            <h3 class="chatbox-title">Emotion Assistant</h3>
-            <button class="chatbox-toggle">▼</button>
+            <h3 class="chatbox-title">💬</h3>
         </div>
-        <div class="chatbox-body" id="chatMessages">
-            <div class="message bot-message">
-                Hello! I'm your emotion assistant. How can I help you today?
+        <div class="chatbox-content" id="chatboxContent">
+            <div class="chatbox-body" id="chatMessages">
+                <div class="message bot-message">
+                    Hello! I'm your emotion assistant. How can I help you today?
+                </div>
             </div>
-        </div>
-        <div class="chatbox-input">
-            <input type="text" id="chatInput" placeholder="Type your message...">
-            <button id="sendMessage">Send</button>
+            <div class="chatbox-input">
+                <input type="text" id="chatInput" placeholder="Type your message...">
+                <button id="sendMessage">Send</button>
+            </div>
         </div>
     </div>
 
@@ -333,9 +367,10 @@
             // Chatbox toggle functionality
             const chatbox = document.getElementById('chatbox');
             const chatboxToggle = document.getElementById('chatboxToggle');
+            const chatboxContent = document.getElementById('chatboxContent');
 
             chatboxToggle.addEventListener('click', function() {
-                chatbox.classList.toggle('closed');
+                chatboxContent.style.display = chatboxContent.style.display === 'none' ? 'block' : 'none';
             });
 
             // Chat functionality
@@ -425,6 +460,16 @@
             document.addEventListener('mousemove', function(e) {
                 mouseTracking.textContent = `Mouse: X: ${e.clientX}, Y: ${e.clientY}`;
             });
+
+            // Webcam functionality
+            const webcam = document.getElementById('webcam');
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    webcam.srcObject = stream;
+                })
+                .catch(err => {
+                    console.error("Error accessing webcam: ", err);
+                });
         });
     </script>
 </body>
